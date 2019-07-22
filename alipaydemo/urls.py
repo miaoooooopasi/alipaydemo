@@ -26,7 +26,8 @@ app_name = 'alipaydemo'
 
 urlpatterns = [
     path('', views.index, name='index'),
-
+    path('back_url/', views.back_url, name='back_url'),
+    path('update_order/', views.update_order, name='update_order'),
 ]
 
 

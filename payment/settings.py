@@ -123,7 +123,7 @@ STATIC_URL = '/static/'
 
 # 支付相关配置
 APPID = "2016100100642328"
-NOTIFY_URL = "http://47.106.237.76:80/alipaydemo/back_url/"
-RETURN_URL = "http://47.106.237.76:80/alipaydemo/update_order/"
+NOTIFY_URL = "http://127.0.0.1:8000/alipaydemo/back_url/"
+RETURN_URL = "http://127.0.0.1:8000/alipaydemo/update_order/"
 PRI_KEY_PATH = "alipaydemo/keys/app_private_key.pem"
 PUB_KEY_PATH = "alipaydemo/keys/app_public_key.pem"

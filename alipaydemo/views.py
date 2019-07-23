@@ -6,6 +6,8 @@ from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt    # 取消 csrf组件
 from .models import PayInfo, OrderInfo
 
+from .tasks import test
+
 
 def aliPay():
     obj = AliPay(
@@ -61,9 +63,12 @@ def back_url(request):
     status = alipay.verify(params, sign)  # 返回 True or False
     print(status)
     if status:
+        # 测试在数据库保存支付信息
         order = OrderInfo.objects.create(create_time='2019-07-22', money='12')
         order.save()
         print(order)
+        # 这步是测试异步功能（函数是test）
+        test.delay(1, 2)
         return HttpResponse('支付成功1')
     return HttpResponse('支付失败1')
 

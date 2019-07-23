@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -27,7 +26,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'alipaydemo',
+    'djcelery',
 ]
 
 MIDDLEWARE = [
@@ -71,7 +70,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'payment.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
@@ -81,7 +79,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -101,7 +98,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -115,7 +111,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
@@ -127,3 +122,21 @@ NOTIFY_URL = "http://127.0.0.1:8000/alipaydemo/back_url/"
 RETURN_URL = "http://127.0.0.1:8000/alipaydemo/update_order/"
 PRI_KEY_PATH = "alipaydemo/keys/app_private_key.pem"
 PUB_KEY_PATH = "alipaydemo/keys/app_public_key.pem"
+
+
+# Celery settings
+import djcelery
+
+djcelery.setup_loader()
+
+# celery中间人 redis://redis服务器所在的ip地址:地址/数据库号
+BROKER_URL = 'redis://127.0.0.1:6379/0'
+# celery结果返回，可用于跟踪结果
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
+# celery内容等消息的格式设置
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+# celery时区设置，使用TIME_ZONE
+CELERY_TIMEZONE = TIME_ZONE
